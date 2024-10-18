@@ -11,31 +11,33 @@ const data = `id,name,surname,gender,email,picture
 61539018,Marco,Calvo,male,marco.calvo@example.com,https://randomuser.me/api/portraits/men/86.jpg`;
 
 const fromCSV = (csv) => {
-  const data = [];
-
   csv = csv.replaceAll("\n", ",");
   csv = csv.split(",");
-
   const [key1, key2, key3, key4, key5, key6, ...usersData] = csv;
+
+  const data = [];
+  const dataRow = [];
+
   const keys = [key1, key2, key3, key4, key5, key6];
-
-  const rows = (csv.length / keys.length - 1).toFixed();
-
   let v = 0;
-  for (const user in rows) {
+  const dataRows = parseInt(usersData.length / keys.length);
+
+  for (let dataRow = 1; dataRow <= dataRows; dataRow++) {
     let user = {};
+    let userDataArray = [];
 
     for (let i = 0; i < keys.length; i++) {
-      const key = keys[i];
-      const value = usersData[v];
-      user = { ...user, key: key, value: value };
+      const userField = `key: ${keys[i]}: value:${usersData[v]}`;
+      userDataArray.push(userField);
       v++;
     }
 
-    data.push(user);
-    console.log(user);
+    userDataArray.forEach((userDataField) => {
+      console.log(userDataField)
+      user = {...user, keys[i]}
+    })
+    
   }
-
 
   return data;
 };
