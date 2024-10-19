@@ -12,31 +12,24 @@ const data = `id,name,surname,gender,email,picture
 
 const fromCSV = (csv) => {
   csv = csv.replaceAll("\n", ",");
-  csv = csv.split(",");
+  csv = csv.slice(",");
   const [key1, key2, key3, key4, key5, key6, ...usersData] = csv;
 
   const data = [];
-  const dataRow = [];
+  let v = 0;
 
   const keys = [key1, key2, key3, key4, key5, key6];
-  let v = 0;
   const dataRows = parseInt(usersData.length / keys.length);
 
   for (let dataRow = 1; dataRow <= dataRows; dataRow++) {
     let user = {};
-    let userDataArray = [];
 
-    for (let i = 0; i < keys.length; i++) {
-      const userField = `key: ${keys[i]}: value:${usersData[v]}`;
-      userDataArray.push(userField);
+    keys.map((key) => {
+      user = {...user, key: {usersData[v]}};
       v++;
-    }
-
-    userDataArray.forEach((userDataField) => {
-      console.log(userDataField)
-      user = {...user, keys[i]}
     })
-    
+
+    data.push(user);
   }
 
   return data;
