@@ -1,7 +1,7 @@
 interface Student {
-    name: string,
-    age: number,
-    occupation: string,
+  name: string,
+  age: number,
+  occupation: string,
 }
 
 interface Teacher {

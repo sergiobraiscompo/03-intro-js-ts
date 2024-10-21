@@ -28,7 +28,7 @@ const compact = (arg) => {
 
       for (const element in arg) {
         const value = arg[element];
-        value ? resultObject = {...resultObject, element: value} : "";
+        value ? resultObject = {...resultObject, [element]: value} : "";
       }
 
       return resultObject;

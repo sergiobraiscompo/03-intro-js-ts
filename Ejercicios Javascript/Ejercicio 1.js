@@ -10,24 +10,26 @@ const data = `id,name,surname,gender,email,picture
 05298880,Marco,Campos,male,marco.campos@example.com,https://randomuser.me/api/portraits/men/67.jpg
 61539018,Marco,Calvo,male,marco.calvo@example.com,https://randomuser.me/api/portraits/men/86.jpg`;
 
-const fromCSV = (csv) => {
+const fromCSV = (csv, nAttrs) => {
   csv = csv.replaceAll("\n", ",");
   csv = csv.split(",");
   const [key1, key2, key3, key4, key5, key6, ...usersData] = csv;
 
   const data = [];
+  
+  const keys = [key1, key2, key3, key4, key5, key6];
+  const nKeys = nAttrs > 0 ? nAttrs : keys.length;
   let v = 0;
 
-  const keys = [key1, key2, key3, key4, key5, key6];
-
-  for (let row = 0; row < parseInt(usersData.length / keys.length); row++) {
+  for (let row = 1; row <= parseInt(usersData.length / keys.length); row++) {
     let user = {};
 
-    for (const keyIndex in keys) {
+    for (let keyIndex = 0; keyIndex < nKeys; keyIndex++) {
       user = { ...user, [keys[keyIndex]]: usersData[v] };
       v++;
     }
 
+    v = row * 6;
     data.push(user);
   }
 
@@ -36,6 +38,11 @@ const fromCSV = (csv) => {
 
 const result = fromCSV(data);
 console.log("data array:", result);
+
+console.log("dataSplitted:", fromCSV(data)); // Cada usuario tendrá todos los atributos como la implementación original
+console.log("dataSplitted:", fromCSV(data, 2)); // cada usuario tendrá sólo `id` y `name`
+console.log("dataSplitted:", fromCSV(data, 3)); // cada usuario tendrá sólo `id`, `name` y `surname`
+console.log("dataSplitted:", fromCSV(data, 4)); // cada usuario tendrá sólo `id`, `name`, `surname` y `gender`
 
 /*
 
