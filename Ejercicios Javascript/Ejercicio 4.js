@@ -82,14 +82,10 @@ const collection = [
 ];
 
 const normalize = (arr) => {
-  let normalizedArray = [];
-
-  arr.map((contestant) => {
-    const { id, ...contestantData } = contestant;
-    normalizedArray = [...normalizedArray, contestant.id, contestantData];
-  });
-
-  return normalizedArray;
+  return arr.reduce((acc, { id, ...contestantData }) => {
+    acc[id] = contestantData;
+    return acc;
+  }, {});
 };
 
 const result = normalize(collection);

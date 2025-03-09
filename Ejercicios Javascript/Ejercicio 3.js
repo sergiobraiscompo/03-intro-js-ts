@@ -242,15 +242,12 @@ const data = [
 ];
 
 const winnerByYear = (arr, year) => {
-    const yearPunctuations = arr.filter((participant) => participant.year == year);
-    const sortedPunctuations = yearPunctuations.sort((lastParticipant, participant) => {return participant.ranking - lastParticipant.ranking});
-    const top3OfTheYear = sortedPunctuations.slice(0, 3);
-    let top3OfTheYearNames = [];
-    
-    top3OfTheYear.forEach((participant) => top3OfTheYearNames =  [...top3OfTheYearNames, participant.name]);
-
-    return top3OfTheYearNames;
-};
+    return arr
+      .filter((p) => p.year === year)
+      .sort((a, b) => b.ranking - a.ranking)
+      .slice(0, 3)
+      .map((p) => p.name);
+  };
 
 console.log(winnerByYear(data, 1998)); // [ 'Douglass', 'Randy', 'Monroe' ]
 console.log(winnerByYear(data, 1999)); // [ 'Graciela', 'Ervin', 'Maxie' ]

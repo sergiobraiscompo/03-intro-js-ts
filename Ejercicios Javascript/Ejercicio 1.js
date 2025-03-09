@@ -11,29 +11,19 @@ const data = `id,name,surname,gender,email,picture
 61539018,Marco,Calvo,male,marco.calvo@example.com,https://randomuser.me/api/portraits/men/86.jpg`;
 
 const fromCSV = (csv, nAttrs) => {
-  csv = csv.replaceAll("\n", ",");
-  csv = csv.split(",");
-  const [key1, key2, key3, key4, key5, key6, ...usersData] = csv;
+  const lines = csv.trim().split("\n");
+  const keys = lines[0].split(",");
+  const nKeys = Math.min(nAttrs || keys.length, keys.length);
 
-  const data = [];
-  
-  const keys = [key1, key2, key3, key4, key5, key6];
-  const nKeys = nAttrs > 0 ? nAttrs : keys.length;
-  let v = 0;
-
-  for (let row = 1; row <= parseInt(usersData.length / keys.length); row++) {
-    let user = {};
-
-    for (let keyIndex = 0; keyIndex < nKeys; keyIndex++) {
-      user = { ...user, [keys[keyIndex]]: usersData[v] };
-      v++;
-    }
-
-    v = row * 6;
-    data.push(user);
-  }
-
-  return data;
+  return lines.slice(1).reduce((acc, line) => {
+    const values = line.split(",");
+    const user = keys.slice(0, nKeys).reduce((obj, key, index) => {
+      obj[key] = values[index];
+      return obj;
+    }, {});
+    acc.push(user);
+    return acc;
+  }, []);
 };
 
 const result = fromCSV(data);
